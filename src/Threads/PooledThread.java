@@ -1,8 +1,8 @@
 package Threads;
 
 public class PooledThread extends Thread {
-    private static IDAssigner threadID = new IDAssigner(1);
-    private ThreadPool pool;
+    private static final IDAssigner threadID = new IDAssigner(1);
+    private final ThreadPool pool;
 
     public PooledThread(ThreadPool pool) {
         super(pool, "PooledThread-" + threadID.next());

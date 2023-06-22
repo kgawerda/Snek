@@ -6,9 +6,9 @@ import java.util.List;
 
 
 public class ObstacleGenerator {
-    private List<Obstacle> obstacles;
+    private final List<Obstacle> obstacles;
 
-    public Runnable createRunnable(){
+    public Runnable createRunnable() {
         return new Runnable() {
             @Override
             public void run() {
@@ -16,19 +16,25 @@ public class ObstacleGenerator {
             }
         };
     }
-    public ObstacleGenerator(){
+
+    public ObstacleGenerator() {
         obstacles = new ArrayList<Obstacle>();
     }
-    private void generateObstacles(){
-        Obstacle tmp = new Obstacle(10,3);
+
+    private void generateObstacles() {
+        Obstacle tmp = new Obstacle(10, 3);
         obstacles.add(tmp);
-        tmp = new Obstacle(3,10);
+        tmp = new Obstacle(3, 10);
         obstacles.add(tmp);
-        tmp = new Obstacle(3,10);
+        tmp = new Obstacle(3, 10);
         obstacles.add(tmp);
     }
-    public void drawObstacles(Graphics g){
-        for(Obstacle obstacle: obstacles) obstacle.draw(g);
+
+    public void drawObstacles(Graphics g) {
+        for (Obstacle obstacle : obstacles) obstacle.draw(g);
     }
-    public List<Obstacle> getObstacles(){return obstacles;}
+
+    public List<Obstacle> getObstacles() {
+        return obstacles;
+    }
 }

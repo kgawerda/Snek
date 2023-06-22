@@ -3,14 +3,12 @@ package Threads;
 import java.util.LinkedList;
 import java.util.List;
 
-public class ThreadPool extends ThreadGroup
-{
+public class ThreadPool extends ThreadGroup {
     private final int numberOfThreads;
     private boolean alive;
     private final List<Runnable> taskQueue;
 
-    public ThreadPool(int numberOfThreads)
-    {
+    public ThreadPool(int numberOfThreads) {
         super("ThreadPool");
         setDaemon(true);
         this.numberOfThreads = numberOfThreads;
@@ -19,42 +17,35 @@ public class ThreadPool extends ThreadGroup
         createThreads();
     }
 
-    private void createThreads()
-    {
-        for(int i=0; i<this.numberOfThreads; ++i)
+    private void createThreads() {
+        for (int i = 0; i < this.numberOfThreads; ++i)
             new PooledThread(this).start();
     }
 
-    protected synchronized Runnable getTask() throws InterruptedException
-    {
-        while (this.taskQueue.size() == 0)
-        {
-            if(!this.alive) return null;
+    protected synchronized Runnable getTask() throws InterruptedException {
+        while (this.taskQueue.size() == 0) {
+            if (!this.alive) return null;
             wait();
         }
         return this.taskQueue.remove(0);
     }
 
-    public synchronized void runTask(Runnable task)
-    {
-        if(!this.alive) throw new IllegalStateException("ThreadPool is dead!");
-        if(task != null)
-        {
+    public synchronized void runTask(Runnable task) {
+        if (!this.alive) throw new IllegalStateException("ThreadPool is dead!");
+        if (task != null) {
             taskQueue.add(task);
             notify();
         }
     }
 
-    public synchronized void close()
-    {
-        if(!this.alive) return;
+    public synchronized void close() {
+        if (!this.alive) return;
         this.alive = false;
         this.taskQueue.clear();
         interrupt();
     }
 
-    public void join()
-    {
+    public void join() {
         synchronized (this) {
             this.alive = false;
             notifyAll();
@@ -63,8 +54,7 @@ public class ThreadPool extends ThreadGroup
         Thread[] threads = new Thread[activeCount()];
         int count = enumerate(threads);
 
-        for(int i=0; i<count; ++i)
-        {
+        for (int i = 0; i < count; ++i) {
             try {
                 threads[i].join();
             } catch (InterruptedException e) {

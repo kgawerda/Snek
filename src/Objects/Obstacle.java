@@ -17,7 +17,7 @@ public class Obstacle extends BoardObject {
         return width;
     }
 
-    public Obstacle( int max_width,int max_height) {
+    public Obstacle(int max_width, int max_height) {
         random = new Random();
         randomWidth(max_width);
         randomHeight(max_height);

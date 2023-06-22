@@ -5,8 +5,9 @@ import java.awt.event.KeyEvent;
 
 public class MyKeyAdapter extends KeyAdapter {
     private char direction = 'R';
+
     @Override
-    public void keyPressed(KeyEvent e){
+    public void keyPressed(KeyEvent e) {
         switch (e.getKeyCode()) {
             case KeyEvent.VK_A -> {
                 if (direction != 'R') direction = 'L';
@@ -22,5 +23,8 @@ public class MyKeyAdapter extends KeyAdapter {
             }
         }
     }
-    public char getDirection(){return direction;}
+
+    public char getDirection() {
+        return direction;
+    }
 }
