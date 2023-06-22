@@ -15,8 +15,8 @@ public class SnakePanel extends JPanel implements ActionListener {
     private final Apple apple;
     private final Mouse mouse;
     private final PlayerSnake playerSnake;
-    private final HorizontalObstacle obstacle;
-    private final VerticalObstacle obstacle2;
+    private final Obstacle obstacle;
+    private final Obstacle obstacle2;
     Timer timer;
 
 
@@ -24,8 +24,8 @@ public class SnakePanel extends JPanel implements ActionListener {
     public SnakePanel(){
         apple = new Apple();
         mouse = new Mouse();
-        obstacle = new HorizontalObstacle();
-        obstacle2 = new VerticalObstacle();
+        obstacle = new Obstacle(10,3);
+        obstacle2 = new Obstacle(3,10);
         playerSnake = new PlayerSnake();
         threadPool = new ThreadPool(4);
 
