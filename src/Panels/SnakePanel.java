@@ -1,9 +1,6 @@
 package Panels;
 import Constants.Constants;
-import Objects.Apple;
-import Objects.Mouse;
-import Objects.MyKeyAdapter;
-import Objects.PlayerSnake;
+import Objects.*;
 import Threads.ThreadPool;
 
 import javax.swing.*;
@@ -11,7 +8,6 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.beans.PropertyChangeListener;
-import java.util.Random;
 
 public class SnakePanel extends JPanel implements ActionListener {
     private boolean running = true;
@@ -19,6 +15,8 @@ public class SnakePanel extends JPanel implements ActionListener {
     private final Apple apple;
     private final Mouse mouse;
     private final PlayerSnake playerSnake;
+    private final HorizontalObstacle obstacle;
+    private final VerticalObstacle obstacle2;
     Timer timer;
 
 
@@ -26,6 +24,8 @@ public class SnakePanel extends JPanel implements ActionListener {
     public SnakePanel(){
         apple = new Apple();
         mouse = new Mouse();
+        obstacle = new HorizontalObstacle();
+        obstacle2 = new VerticalObstacle();
         playerSnake = new PlayerSnake();
         threadPool = new ThreadPool(4);
 
@@ -64,6 +64,8 @@ public class SnakePanel extends JPanel implements ActionListener {
         if(running){
             apple.draw(g);
             mouse.draw(g);
+            obstacle.draw(g);
+            obstacle2.draw(g);
             playerSnake.draw(g);
             g.setColor(Color.red);
             g.setFont(new Font("Serif",Font.BOLD,40));
