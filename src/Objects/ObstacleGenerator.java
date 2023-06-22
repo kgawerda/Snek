@@ -8,9 +8,16 @@ import java.util.List;
 public class ObstacleGenerator {
     private List<Obstacle> obstacles;
 
+    public Runnable createRunnable(){
+        return new Runnable() {
+            @Override
+            public void run() {
+                generateObstacles();
+            }
+        };
+    }
     public ObstacleGenerator(){
         obstacles = new ArrayList<Obstacle>();
-        generateObstacles();
     }
     private void generateObstacles(){
         Obstacle tmp = new Obstacle(10,3);

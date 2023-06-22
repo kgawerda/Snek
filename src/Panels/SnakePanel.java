@@ -26,7 +26,7 @@ public class SnakePanel extends JPanel implements ActionListener {
         obstacleGenerator = new ObstacleGenerator();
         playerSnake = new PlayerSnake();
         threadPool = new ThreadPool(4);
-
+        threadPool.runTask(obstacleGenerator.createRunnable());
         apple.newApple(obstacleGenerator.getObstacles());
         mouse.newMouse(obstacleGenerator.getObstacles());
 
