@@ -1,6 +1,7 @@
 package Panels;
 import Constants.Constants;
 import Objects.Apple;
+import Objects.Mouse;
 import Objects.MyKeyAdapter;
 import Objects.PlayerSnake;
 import Threads.ThreadPool;
@@ -16,6 +17,7 @@ public class SnakePanel extends JPanel implements ActionListener {
     private boolean running = true;
     private final ThreadPool threadPool;
     private final Apple apple;
+    private final Mouse mouse;
     private final PlayerSnake playerSnake;
     Timer timer;
 
@@ -23,12 +25,13 @@ public class SnakePanel extends JPanel implements ActionListener {
 
     public SnakePanel(){
         apple = new Apple();
+        mouse = new Mouse();
         playerSnake = new PlayerSnake();
         threadPool = new ThreadPool(4);
 
         apple.newApple();
-        System.out.println(apple.getPositionX());
-        System.out.println(apple.getPositionY());
+        mouse.newMouse();
+
         timer = new Timer(Constants.DELAY,this);
         timer.start();
         this.setPreferredSize(new Dimension(Constants.SCREEN_WIDTH,Constants.SCREEN_HEIGHT));
@@ -48,16 +51,19 @@ public class SnakePanel extends JPanel implements ActionListener {
     public void actionPerformed(ActionEvent e){
         if(running){
             threadPool.runTask(playerSnake);
-            apple.checkCollisionApple(playerSnake);
+            apple.checkCollision(playerSnake);
+            mouse.checkCollision(playerSnake);
+            threadPool.runTask(mouse.createRunnable(playerSnake.getHeadX(),playerSnake.getHeadY()));
             running=playerSnake.checkCollisionsBoard();
         }
-
+        else timer.stop();
         repaint();
     }
 
     public void draw(Graphics g){
         if(running){
             apple.draw(g);
+            mouse.draw(g);
             playerSnake.draw(g);
             g.setColor(Color.red);
             g.setFont(new Font("Serif",Font.BOLD,40));

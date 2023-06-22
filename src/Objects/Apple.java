@@ -27,11 +27,11 @@ public class Apple extends BoardObject{
 //            positionX=randomNumber(0,(Constants.SCREEN_WIDTH/Constants.UNIT_SIZE)*Constants.UNIT_SIZE);
 //            positionY=randomNumber(0,(Constants.SCREEN_HEIGHT/Constants.UNIT_SIZE)*Constants.UNIT_SIZE);
             positionX=random.nextInt((Constants.SCREEN_WIDTH/Constants.UNIT_SIZE))*Constants.UNIT_SIZE;
-            positionY=random.nextInt((Constants.SCREEN_WIDTH/Constants.UNIT_SIZE))*Constants.UNIT_SIZE;
+            positionY=random.nextInt((Constants.SCREEN_HEIGHT/Constants.UNIT_SIZE))*Constants.UNIT_SIZE;
         //}while(checkObstacle(obstacles));
     }
 
-    public void checkCollisionApple(PlayerSnake snake/*, List<BoardObject> obstacles*/){
+    public void checkCollision(PlayerSnake snake/*, List<BoardObject> obstacles*/){
         if((snake.getHeadX()==this.getPositionX())&&(snake.getHeadY()==this.getPositionY())){
             snake.setSnakeLength(snake.getSnakeLength()+1);
             this.newApple(/*obstacles*/);

@@ -57,7 +57,7 @@ public class PlayerSnake implements Runnable{
     }
 
     public boolean checkCollisionsBoard(){
-        for(int i=snakeLength;i>0;i--){
+        for(int i=snakeLength;i>1;i--){
 //            System.out.println("HeadX");
 //            System.out.println(getHeadX());
 //            System.out.println("HeadY");
@@ -67,13 +67,14 @@ public class PlayerSnake implements Runnable{
 //            System.out.println("Yi");
 //            System.out.println(y[i]);
             if((getHeadX()==x[i])&&(getHeadY()==y[i])){
+                System.out.println("Snake collision");
                 return false;
             }
         }
-        if(getHeadX()<=0) return false;
-        if(getHeadX()>=Constants.SCREEN_WIDTH) return false;
-        if(getHeadY()<=0) return false;
-        if(getHeadY()>=Constants.SCREEN_HEIGHT) return false;
+        if(getHeadX()<0) return false;
+        if(getHeadX()>Constants.SCREEN_WIDTH) return false;
+        if(getHeadY()<0) return false;
+        if(getHeadY()>Constants.SCREEN_HEIGHT) return false;
 
         return true;
     }
