@@ -19,16 +19,19 @@ import java.io.File;
 public class SnakePanel extends JPanel implements ActionListener {
     private boolean running = true;
     private boolean runningAi = true;
-    private final ThreadPool threadPool;
-    private final Apple apple;
-    private final Mouse mouse;
-    private final PlayerSnake playerSnake;
-    private final ObstacleGenerator obstacleGenerator;
-    private final AiSnake aiSnake;
+    private ThreadPool threadPool;
+    private Apple apple;
+    private Mouse mouse;
+    private PlayerSnake playerSnake;
+    private ObstacleGenerator obstacleGenerator;
+    private AiSnake aiSnake;
     Timer timer;
+    private JButton restartButton;
 
 
-    public SnakePanel() {
+    public void init() {
+        timer = new Timer(Constants.DELAY, this);
+        timer.start();
         apple = new Apple();
         mouse = new Mouse();
         obstacleGenerator = new ObstacleGenerator();
@@ -38,14 +41,32 @@ public class SnakePanel extends JPanel implements ActionListener {
         threadPool.runTask(obstacleGenerator.createRunnable());
         apple.newApple(obstacleGenerator.getObstacles());
         mouse.newMouse(obstacleGenerator.getObstacles());
+        this.addKeyListener(playerSnake.getKeyAdapter());
+    }
 
-        timer = new Timer(Constants.DELAY, this);
-        timer.start();
+    public SnakePanel() {
+        init();
         this.setPreferredSize(new Dimension(Constants.SCREEN_WIDTH, Constants.SCREEN_HEIGHT));
         this.setBackground(Color.black);
         this.setFocusable(true);
         this.setLayout(null);
-        this.addKeyListener(playerSnake.getKeyAdapter());
+        
+        initializeRestartButton();
+        this.add(restartButton);
+    }
+
+    private void initializeRestartButton() {
+        restartButton = new JButton("Restart");
+        restartButton.setBounds(Constants.SCREEN_WIDTH / 2 - 50, Constants.SCREEN_HEIGHT /2  + 200, 100, 50);
+        restartButton.addActionListener(e -> restartGame());
+        restartButton.setVisible(false);
+    }
+
+    private void restartGame() {
+        init();
+        running = true;
+        runningAi = true;
+        restartButton.setVisible(false);
     }
 
     @Override
@@ -124,16 +145,12 @@ public class SnakePanel extends JPanel implements ActionListener {
         g.setFont(new Font("Serif", Font.BOLD, 75));
         FontMetrics metrics = getFontMetrics(g.getFont());
         g.drawString("GAME OVER", (Constants.SCREEN_WIDTH - metrics.stringWidth("GAME OVER")) / 2, Constants.SCREEN_HEIGHT / 2);
+        restartButton.setVisible(true);
 
-        // TODO : save data to file and add restart button
-        // append data to file, do not overwrite it
-        // save it by datetime
+        saveDataToFile(playerSnake.getSnakeLength() - Constants.INITIAL_SNAKE_LENGTH);
 
-        int score = playerSnake.getSnakeLength() - Constants.INITIAL_SNAKE_LENGTH;
-
-
-        saveDataToFile(score);
     }
+
 
     public void checkObstacleCollision() {
         Rectangle snake = playerSnake.getBounds();

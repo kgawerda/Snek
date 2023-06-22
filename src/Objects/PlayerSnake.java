@@ -97,10 +97,11 @@ public class PlayerSnake implements Runnable {
             }
         }
     }
-    
+
     // TODO: check if this is needed
     public void addPropertyChangeListener(PropertyChangeListener listener) {
         changes.addPropertyChangeListener(listener);
     }
 
+    
 }

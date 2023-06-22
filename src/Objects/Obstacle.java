@@ -43,12 +43,12 @@ public class Obstacle extends BoardObject {
 
     private void randomWidth(int max_size) {
         random = new Random();
-        width = (random.nextInt(max_size) + 1) * Constants.UNIT_SIZE;
+        width = (random.nextInt(1, max_size)) * Constants.UNIT_SIZE;
     }
 
     private void randomHeight(int max_size) {
         random = new Random();
-        height = (random.nextInt(max_size) + 1) * Constants.UNIT_SIZE;
+        height = (random.nextInt(1, max_size)) * Constants.UNIT_SIZE;
     }
 
 
