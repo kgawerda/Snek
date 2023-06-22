@@ -9,14 +9,14 @@ import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 
 public class PlayerSnake implements Runnable{
-    private final int[] x =new int[Constants.SCREEN_WIDTH];
-    private final int[] y =new int[Constants.SCREEN_HEIGHT];
+    protected final int[] x =new int[Constants.SCREEN_WIDTH];
+    protected final int[] y =new int[Constants.SCREEN_HEIGHT];
     public int getHeadX(){return x[0];}
     public int getHeadY(){return y[0];}
-    private int snakeLength;
+    protected int snakeLength;
     public int getSnakeLength(){return snakeLength;}
-    private final PropertyChangeSupport changes;
-    private final MyKeyAdapter keyAdapter = new MyKeyAdapter();
+    protected final PropertyChangeSupport changes;
+    protected final MyKeyAdapter keyAdapter = new MyKeyAdapter();
     public MyKeyAdapter getKeyAdapter(){return keyAdapter;}
     public Rectangle getBounds()
     {
@@ -28,7 +28,7 @@ public class PlayerSnake implements Runnable{
         init();
     }
 
-    private void init(){
+    protected void init(){
         snakeLength=Constants.INITIAL_SNAKE_LENGTH;
         for (int i=0;i<snakeLength;i++){
             x[i]=100 - i*Constants.UNIT_SIZE;
@@ -57,24 +57,16 @@ public class PlayerSnake implements Runnable{
     }
 
     public boolean checkCollisionsBoard(){
-        for(int i=snakeLength;i>1;i--){
-//            System.out.println("HeadX");
-//            System.out.println(getHeadX());
-//            System.out.println("HeadY");
-//            System.out.println(getHeadY());
-//            System.out.println("Xi");
-//            System.out.println(x[i]);
-//            System.out.println("Yi");
-//            System.out.println(y[i]);
-            if((getHeadX()==x[i])&&(getHeadY()==y[i])){
+        for(int i=this.snakeLength;i>1;i--){
+            if((this.getHeadX()==this.x[i])&&(this.getHeadY()==this.y[i])){
                 System.out.println("Snake collision");
                 return false;
             }
         }
-        if(getHeadX()<0) return false;
-        if(getHeadX()>Constants.SCREEN_WIDTH) return false;
-        if(getHeadY()<0) return false;
-        if(getHeadY()>Constants.SCREEN_HEIGHT) return false;
+        if(this.getHeadX()<0) return false;
+        if(this.getHeadX()>Constants.SCREEN_WIDTH) return false;
+        if(this.getHeadY()<0) return false;
+        if(this.getHeadY()>Constants.SCREEN_HEIGHT) return false;
 
         return true;
     }

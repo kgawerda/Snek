@@ -11,11 +11,13 @@ import java.beans.PropertyChangeListener;
 
 public class SnakePanel extends JPanel implements ActionListener {
     private boolean running = true;
+    private boolean runningAi = true;
     private final ThreadPool threadPool;
     private final Apple apple;
     private final Mouse mouse;
     private final PlayerSnake playerSnake;
     private final ObstacleGenerator obstacleGenerator;
+    private final AiSnake aiSnake;
     Timer timer;
 
 
@@ -25,6 +27,7 @@ public class SnakePanel extends JPanel implements ActionListener {
         mouse = new Mouse();
         obstacleGenerator = new ObstacleGenerator();
         playerSnake = new PlayerSnake();
+        aiSnake = new AiSnake();
         threadPool = new ThreadPool(4);
         threadPool.runTask(obstacleGenerator.createRunnable());
         apple.newApple(obstacleGenerator.getObstacles());
@@ -49,11 +52,16 @@ public class SnakePanel extends JPanel implements ActionListener {
     public void actionPerformed(ActionEvent e){
         if(running){
             threadPool.runTask(playerSnake);
+            if(runningAi) threadPool.runTask(aiSnake.createRunnable(apple,obstacleGenerator.getObstacles(),playerSnake));
+            apple.checkCollision(aiSnake ,obstacleGenerator.getObstacles());
+            mouse.checkCollision(aiSnake, obstacleGenerator.getObstacles());
             apple.checkCollision(playerSnake ,obstacleGenerator.getObstacles());
             mouse.checkCollision(playerSnake, obstacleGenerator.getObstacles());
             threadPool.runTask(mouse.createRunnable(playerSnake.getHeadX(),playerSnake.getHeadY(),obstacleGenerator.getObstacles()));
             running=playerSnake.checkCollisionsBoard();
+            //runningAi=aiSnake.checkCollisionsBoard();
             this.checkObstacleCollision();
+            this.checkAiObstacleCollision();
         }
         else timer.stop();
         repaint();
@@ -65,6 +73,7 @@ public class SnakePanel extends JPanel implements ActionListener {
             mouse.draw(g);
             obstacleGenerator.drawObstacles(g);
             playerSnake.draw(g);
+            if(runningAi)aiSnake.draw(g);
             g.setColor(Color.red);
             g.setFont(new Font("Serif",Font.BOLD,40));
             FontMetrics metrics = getFontMetrics(g.getFont());
@@ -91,6 +100,14 @@ public class SnakePanel extends JPanel implements ActionListener {
         for(Obstacle obstacle: obstacleGenerator.getObstacles()){
             Rectangle obstacleRectangle = obstacle.getBounds();
             if(snake.intersects(obstacleRectangle)) running=false;
+        }
+    }
+    public void checkAiObstacleCollision(){
+        Rectangle snake = aiSnake.getBounds();
+
+        for(Obstacle obstacle: obstacleGenerator.getObstacles()){
+            Rectangle obstacleRectangle = obstacle.getBounds();
+            if(snake.intersects(obstacleRectangle)) runningAi=false;
         }
     }
     public void addSnakeObjectPropertyChangeListener(PropertyChangeListener listener)
