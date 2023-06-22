@@ -17,4 +17,5 @@ public class BoardObject {
     {
         return new Rectangle(positionX, positionY, width, height);
     }
+    public Rectangle getBoundsSurrounding(){return new Rectangle(positionX-Constants.UNIT_SIZE, positionY-Constants.UNIT_SIZE, width+Constants.UNIT_SIZE, height+Constants.UNIT_SIZE);}
 }

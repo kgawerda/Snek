@@ -7,28 +7,27 @@ import java.util.Random;
 
 public class Obstacle extends BoardObject {
     Random random;
-    private int length;
-    private int width;
+
 
     public int getLength() {
-        return length;
+        return height;
     }
 
     public int getWidth() {
         return width;
     }
 
-    public Obstacle(int max_length, int max_width) {
+    public Obstacle( int max_width,int max_height) {
         random = new Random();
-        randomLength(max_length);
         randomWidth(max_width);
+        randomHeight(max_height);
         positionX = random.nextInt(((Constants.SCREEN_WIDTH / 2) / Constants.UNIT_SIZE)) * Constants.UNIT_SIZE;
         positionY = random.nextInt((Constants.SCREEN_HEIGHT / Constants.UNIT_SIZE)) * Constants.UNIT_SIZE;
     }
 
     public void draw(Graphics g) {
         g.setColor(Color.white);
-        g.fillRect(positionX, positionY, length, width);
+        g.fillRect(positionX, positionY, width, height);
     }
 
 //    private void randomDirection() {
@@ -42,14 +41,14 @@ public class Obstacle extends BoardObject {
 //        }
 //    }
 
-    private void randomLength(int max_size) {
-        random = new Random();
-        length = (random.nextInt(max_size) + 1) * Constants.UNIT_SIZE;
-    }
-
     private void randomWidth(int max_size) {
         random = new Random();
         width = (random.nextInt(max_size) + 1) * Constants.UNIT_SIZE;
+    }
+
+    private void randomHeight(int max_size) {
+        random = new Random();
+        height = (random.nextInt(max_size) + 1) * Constants.UNIT_SIZE;
     }
 
 

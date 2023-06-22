@@ -13,28 +13,34 @@ public class Apple extends BoardObject{
         g.fillOval(positionX,positionY,Constants.UNIT_SIZE,Constants.UNIT_SIZE);
     }
 
-    protected boolean checkObstacle(List<BoardObject> obstacles){
-        for(BoardObject obstacle : obstacles){
+    protected boolean checkObstacle(List<Obstacle> obstacles){
+        for(Obstacle obstacle : obstacles){
             Rectangle obstacleBounds = obstacle.getBounds();
             if(obstacleBounds.intersects(this.getBounds()))
                 return true;
         }
         return false;
     }
-    public void newApple(/*ist<BoardObject> obstacles*/){
+    public void newApple(List<Obstacle> obstacles){
         random = new Random();
-        //do{
-//            positionX=randomNumber(0,(Constants.SCREEN_WIDTH/Constants.UNIT_SIZE)*Constants.UNIT_SIZE);
-//            positionY=randomNumber(0,(Constants.SCREEN_HEIGHT/Constants.UNIT_SIZE)*Constants.UNIT_SIZE);
+        do{
             positionX=random.nextInt((Constants.SCREEN_WIDTH/Constants.UNIT_SIZE))*Constants.UNIT_SIZE;
             positionY=random.nextInt((Constants.SCREEN_HEIGHT/Constants.UNIT_SIZE))*Constants.UNIT_SIZE;
-        //}while(checkObstacle(obstacles));
+        }while(checkObstacle(obstacles));
     }
 
-    public void checkCollision(PlayerSnake snake/*, List<BoardObject> obstacles*/){
+    public void checkCollision(PlayerSnake snake, List<Obstacle> obstacles){
         if((snake.getHeadX()==this.getPositionX())&&(snake.getHeadY()==this.getPositionY())){
             snake.setSnakeLength(snake.getSnakeLength()+1);
-            this.newApple(/*obstacles*/);
+            this.newApple(obstacles);
         }
+    }
+    protected boolean checkObstacleSurrounding(List<Obstacle> obstacles){
+        for(Obstacle obstacle : obstacles){
+            Rectangle obstacleBounds = obstacle.getBounds();
+            if(obstacleBounds.intersects(this.getBoundsSurrounding()))
+                return true;
+        }
+        return false;
     }
 }
