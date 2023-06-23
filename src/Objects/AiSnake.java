@@ -61,8 +61,6 @@ public class AiSnake extends PlayerSnake {
 
         else if (apple.getPositionY() < this.getHeadY()&&!checkUp(obstacles, playerSnake)&&prevDirection!='D') direction = 'U';
        /// else if (apple.getPositionY() < this.getHeadY()&&!checkUp(obstacles, playerSnake)) direction = 'R';
-
-
     }
     private char avoidObstacles(List<Obstacle> obstacles, PlayerSnake playerSnake){
         switch (direction) {
@@ -94,9 +92,9 @@ public class AiSnake extends PlayerSnake {
             Rectangle obstacleRectangle = obstacle.getBounds();
             if (obstacleRectangle.contains(this.getHeadX()-Constants.UNIT_SIZE,this.getHeadY())) return true;
         }
-//        for(int i=0; i<playerSnake.getSnakeLength();i++){
-//            if(this.getHeadX()-Constants.UNIT_SIZE==playerSnake.x[i]&&this.getHeadY()==playerSnake.y[i]) return true;
-//        }
+        for(int i=0; i<playerSnake.getSnakeLength();i++){
+            if(this.getHeadX()-Constants.UNIT_SIZE==playerSnake.x[i]&&this.getHeadY()==playerSnake.y[i]) return true;
+        }
         return false;
         //return (this.getHeadX() - Constants.UNIT_SIZE) > 0;
     }
@@ -106,9 +104,9 @@ public class AiSnake extends PlayerSnake {
             Rectangle obstacleRectangle = obstacle.getBounds();
             if (obstacleRectangle.contains(this.getHeadX()+Constants.UNIT_SIZE,this.getHeadY())) return true;
         }
-//        for(int i=0; i<playerSnake.getSnakeLength();i++){
-//            if(this.getHeadX()+Constants.UNIT_SIZE==playerSnake.x[i]&&this.getHeadY()==playerSnake.y[i]) return true;
-//        }
+        for(int i=0; i<playerSnake.getSnakeLength();i++){
+            if(this.getHeadX()+Constants.UNIT_SIZE==playerSnake.x[i]&&this.getHeadY()==playerSnake.y[i]) return true;
+        }
         //return (this.getHeadX() + Constants.UNIT_SIZE) < Constants.SCREEN_WIDTH;
         return false;
     }
@@ -118,9 +116,9 @@ public class AiSnake extends PlayerSnake {
             Rectangle obstacleRectangle = obstacle.getBounds();
             if (obstacleRectangle.contains(this.getHeadX(),this.getHeadY()-Constants.UNIT_SIZE)) return true;
         }
-//        for(int i=0; i<playerSnake.getSnakeLength();i++){
-//            if(this.getHeadX()==playerSnake.x[i]&&this.getHeadY()==playerSnake.y[i]-Constants.UNIT_SIZE) return true;
-//        }
+        for(int i=0; i<playerSnake.getSnakeLength();i++){
+            if(this.getHeadX()==playerSnake.x[i]&&this.getHeadY()==playerSnake.y[i]-Constants.UNIT_SIZE) return true;
+        }
 
         return false;
         //return (this.getHeadY() + Constants.UNIT_SIZE) < Constants.SCREEN_HEIGHT;
@@ -131,9 +129,9 @@ public class AiSnake extends PlayerSnake {
             Rectangle obstacleRectangle = obstacle.getBounds();
             if (obstacleRectangle.contains(this.getHeadX(),this.getHeadY()+Constants.UNIT_SIZE)) return true;
         }
-//        for(int i=0; i<playerSnake.getSnakeLength();i++){
-//            if(this.getHeadX()==playerSnake.x[i]&&this.getHeadY()==playerSnake.y[i]+Constants.UNIT_SIZE) return true;
-//        }
+        for(int i=0; i<playerSnake.getSnakeLength();i++){
+            if(this.getHeadX()==playerSnake.x[i]&&this.getHeadY()==playerSnake.y[i]+Constants.UNIT_SIZE) return true;
+        }
         return false;
         //return (this.getHeadY() - Constants.UNIT_SIZE) > 0;
     }
