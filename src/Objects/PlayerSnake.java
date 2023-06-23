@@ -85,7 +85,12 @@ public class PlayerSnake implements Runnable {
 
         return true;
     }
-
+    public boolean checkCollisionSnake(PlayerSnake enemySnake){
+        for(int i=0; i<enemySnake.getSnakeLength();i++){
+            if(this.getHeadX()==enemySnake.x[i]&&this.getHeadY()==enemySnake.y[i]) return false;
+        }
+        return true;
+    }
     public void draw(Graphics g) {
         for (int i = 0; i < snakeLength; i++) {
             if (i == 0) {
