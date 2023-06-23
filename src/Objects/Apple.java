@@ -26,8 +26,8 @@ public class Apple extends BoardObject {
     public void newApple(List<Obstacle> obstacles) {
         random = new Random();
         do {
-            positionX = random.nextInt(Constants.UNIT_SIZE, (Constants.SCREEN_WIDTH / Constants.UNIT_SIZE)) * Constants.UNIT_SIZE;
-            positionY = random.nextInt(Constants.UNIT_SIZE, (Constants.SCREEN_HEIGHT / Constants.UNIT_SIZE)) * Constants.UNIT_SIZE;
+            positionX = random.nextInt( ((Constants.SCREEN_WIDTH-Constants.UNIT_SIZE) / Constants.UNIT_SIZE)) * Constants.UNIT_SIZE;
+            positionY = random.nextInt( ((Constants.SCREEN_HEIGHT-Constants.UNIT_SIZE) / Constants.UNIT_SIZE)) * Constants.UNIT_SIZE;
         } while (checkObstacle(obstacles));
     }
 

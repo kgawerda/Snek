@@ -74,7 +74,7 @@ public class PlayerSnake implements Runnable {
     public boolean checkCollisionsBoard() {
         for (int i = this.snakeLength; i > 1; i--) {
             if ((this.getHeadX() == this.x[i]) && (this.getHeadY() == this.y[i])) {
-                System.out.println("Snake collision");
+                //System.out.println("Snake collision");
                 return false;
             }
         }

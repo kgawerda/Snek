@@ -86,7 +86,7 @@ public class SnakePanel extends JPanel implements ActionListener {
             mouse.checkCollision(playerSnake, obstacleGenerator.getObstacles());
             threadPool.runTask(mouse.createRunnable(playerSnake.getHeadX(), playerSnake.getHeadY(), obstacleGenerator.getObstacles()));
             running = playerSnake.checkCollisionsBoard();
-            //runningAi=aiSnake.checkCollisionsBoard();
+            runningAi=aiSnake.checkCollisionsBoard();
             this.checkObstacleCollision();
             this.checkAiObstacleCollision();
         } else timer.stop();
