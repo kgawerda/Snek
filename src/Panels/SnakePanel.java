@@ -27,6 +27,7 @@ public class SnakePanel extends JPanel implements ActionListener {
     private AiSnake aiSnake;
     Timer timer;
     private JButton restartButton;
+    private boolean written=false;
 
 
     public void init() {
@@ -64,6 +65,7 @@ public class SnakePanel extends JPanel implements ActionListener {
 
     private void restartGame() {
         init();
+        written=false;
         running = true;
         runningAi = true;
         restartButton.setVisible(false);
@@ -113,11 +115,11 @@ public class SnakePanel extends JPanel implements ActionListener {
 
     }
 
-    public void saveDataToFile(int score) {
+    public void saveDataToFile(int score, int aiscore) {
         String directoryName = "Scores";
         String fileName = new SimpleDateFormat("ddMMyyyy").format(new Date());
         String formattedDate = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss").format(new Date());
-        String data = "DateOfGame: " + formattedDate + ", Score: " + score + "\n";
+        String data = "DateOfGame: " + formattedDate + ", Player score: " + score +", AI score: " + aiscore + "\n";
 
         try {
             File directory = new File(directoryName);
@@ -151,7 +153,10 @@ public class SnakePanel extends JPanel implements ActionListener {
         g.drawString("GAME OVER", (Constants.SCREEN_WIDTH - metrics.stringWidth("GAME OVER")) / 2, Constants.SCREEN_HEIGHT / 2);
         restartButton.setVisible(true);
 
-        saveDataToFile(playerSnake.getSnakeLength() - Constants.INITIAL_SNAKE_LENGTH);
+        if(!written){
+            saveDataToFile(playerSnake.getSnakeLength() - Constants.INITIAL_SNAKE_LENGTH,aiSnake.getSnakeLength() - Constants.INITIAL_SNAKE_LENGTH);
+            written=true;
+        }
 
     }
 
