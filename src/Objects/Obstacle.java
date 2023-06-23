@@ -9,13 +9,13 @@ public class Obstacle extends BoardObject {
     Random random;
 
 
-    public int getLength() {
-        return height;
-    }
-
-    public int getWidth() {
-        return width;
-    }
+//    public int getLength() {
+//        return height;
+//    }
+//
+//    public int getWidth() {
+//        return width;
+//    }
 
     public Obstacle(int max_width, int max_height) {
         random = new Random();
@@ -26,6 +26,7 @@ public class Obstacle extends BoardObject {
     }
 
     public void draw(Graphics g) {
+
         g.setColor(Color.white);
         g.fillRect(positionX, positionY, width, height);
     }

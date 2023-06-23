@@ -10,18 +10,15 @@ public class AiSnake extends PlayerSnake {
     private char prevDirection = 'U';
 
     public Runnable createRunnable(Apple apple, List<Obstacle> obstacles, PlayerSnake playerSnake) {
-        return new Runnable() {
-            @Override
-            public void run() {
-                //if(!checkLeft(obstacles, playerSnake)&&!checkRight(obstacles, playerSnake)&&!checkUp(obstacles, playerSnake)&&!checkDown(obstacles, playerSnake))
-                prevDirection = direction;
-                setDirection(apple, obstacles, playerSnake);
-                prevDirection = direction;
-                direction = avoidObstacles(obstacles, playerSnake);
-                move();
+        return () -> {
+            //if(!checkLeft(obstacles, playerSnake)&&!checkRight(obstacles, playerSnake)&&!checkUp(obstacles, playerSnake)&&!checkDown(obstacles, playerSnake))
+            prevDirection = direction;
+            setDirection(apple, obstacles, playerSnake);
+            prevDirection = direction;
+            direction = avoidObstacles(obstacles, playerSnake);
+            move();
 
 
-            }
         };
     }
 

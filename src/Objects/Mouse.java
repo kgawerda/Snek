@@ -48,12 +48,7 @@ public class Mouse extends Apple {
     }
 
     public Runnable createRunnable(int snakeX, int snakeY, List<Obstacle> obstacles) {
-        return new Runnable() {
-            @Override
-            public void run() {
-                chase(snakeX, snakeY, obstacles);
-            }
-        };
+        return () -> chase(snakeX, snakeY, obstacles);
     }
 
     private void chase(int snakeX, int snakeY, List<Obstacle> obstacles) {
