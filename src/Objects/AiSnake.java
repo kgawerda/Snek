@@ -35,6 +35,19 @@ public class AiSnake extends PlayerSnake {
         }
     }
 
+    @Override
+    public void draw(Graphics g) {
+        for (int i = 0; i < this.snakeLength; i++) {
+            if (i == 0) {
+                g.setColor(Color.orange);
+                g.fillRect(x[i], y[i], Constants.UNIT_SIZE, Constants.UNIT_SIZE);
+            } else {
+                g.setColor(Color.red);
+                g.fillRect(x[i], y[i], Constants.UNIT_SIZE, Constants.UNIT_SIZE);
+            }
+        }
+    }
+
 
     public void move() {
         for (int i = snakeLength; i > 0; i--) {
