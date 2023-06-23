@@ -97,9 +97,9 @@ public class AiSnake extends PlayerSnake {
         for(int i=0; i<playerSnake.getSnakeLength();i++){
             if(this.getHeadX()-Constants.UNIT_SIZE==playerSnake.x[i]&&this.getHeadY()==playerSnake.y[i]) return true;
         }
-//        for(int i=1; i<this.getSnakeLength();i++){
-//            if(this.getHeadX()-Constants.UNIT_SIZE==this.x[i]&&this.getHeadY()==this.y[i]) return true;
-//        }
+        for(int i=1; i<this.getSnakeLength();i++){
+            if(this.getHeadX()-Constants.UNIT_SIZE==this.x[i]&&this.getHeadY()==this.y[i]) return true;
+        }
         return false;
         //return (this.getHeadX() - Constants.UNIT_SIZE) > 0;
     }
@@ -112,9 +112,9 @@ public class AiSnake extends PlayerSnake {
         for(int i=0; i<playerSnake.getSnakeLength();i++){
             if(this.getHeadX()+Constants.UNIT_SIZE==playerSnake.x[i]&&this.getHeadY()==playerSnake.y[i]) return true;
         }
-//        for(int i=1; i<this.getSnakeLength();i++){
-//            if(this.getHeadX()+Constants.UNIT_SIZE==this.x[i]&&this.getHeadY()==this.y[i]) return true;
-//        }
+        for(int i=1; i<this.getSnakeLength();i++){
+            if(this.getHeadX()+Constants.UNIT_SIZE==this.x[i]&&this.getHeadY()==this.y[i]) return true;
+        }
         //return (this.getHeadX() + Constants.UNIT_SIZE) < Constants.SCREEN_WIDTH;
         return false;
     }
@@ -127,9 +127,9 @@ public class AiSnake extends PlayerSnake {
         for(int i=0; i<playerSnake.getSnakeLength();i++){
             if(this.getHeadX()==playerSnake.x[i]&&this.getHeadY()-Constants.UNIT_SIZE==playerSnake.y[i]) return true;
         }
-//        for(int i=1; i<this.getSnakeLength();i++){
-//            if(this.getHeadX()==this.x[i]&&this.getHeadY()==this.y[i]-Constants.UNIT_SIZE) return true;
-//        }
+        for(int i=1; i<this.getSnakeLength();i++){
+            if(this.getHeadX()==this.x[i]&&this.getHeadY()-Constants.UNIT_SIZE==this.y[i]) return true;
+        }
 
         return false;
         //return (this.getHeadY() + Constants.UNIT_SIZE) < Constants.SCREEN_HEIGHT;
@@ -143,9 +143,9 @@ public class AiSnake extends PlayerSnake {
         for(int i=0; i<playerSnake.getSnakeLength();i++){
             if(this.getHeadX()==playerSnake.x[i]&&this.getHeadY()+Constants.UNIT_SIZE==playerSnake.y[i]) return true;
         }
-//        for(int i=1; i<this.getSnakeLength();i++){
-//            if(this.getHeadX()==this.x[i]&&this.getHeadY()==this.y[i]+Constants.UNIT_SIZE) return true;
-//        }
+        for(int i=1; i<this.getSnakeLength();i++){
+            if(this.getHeadX()==this.x[i]&&this.getHeadY()+Constants.UNIT_SIZE==this.y[i]) return true;
+        }
         return false;
         //return (this.getHeadY() - Constants.UNIT_SIZE) > 0;
     }
