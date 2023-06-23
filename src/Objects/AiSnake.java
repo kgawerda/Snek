@@ -101,8 +101,9 @@ public class AiSnake extends PlayerSnake {
         for (int i = 1; i < this.getSnakeLength(); i++) {
             if (this.getHeadX() - Constants.UNIT_SIZE == this.x[i] && this.getHeadY() == this.y[i]) return true;
         }
+        if ((this.getHeadX() - Constants.UNIT_SIZE) < 0) return true;
         return false;
-        //return (this.getHeadX() - Constants.UNIT_SIZE) > 0;
+
     }
 
     private boolean checkRight(List<Obstacle> obstacles, PlayerSnake playerSnake) {
@@ -116,7 +117,7 @@ public class AiSnake extends PlayerSnake {
         for (int i = 1; i < this.getSnakeLength(); i++) {
             if (this.getHeadX() + Constants.UNIT_SIZE == this.x[i] && this.getHeadY() == this.y[i]) return true;
         }
-        //return (this.getHeadX() + Constants.UNIT_SIZE) < Constants.SCREEN_WIDTH;
+        if ((this.getHeadX() + Constants.UNIT_SIZE) > Constants.SCREEN_WIDTH) return true;
         return false;
     }
 
@@ -132,8 +133,9 @@ public class AiSnake extends PlayerSnake {
             if (this.getHeadX() == this.x[i] && this.getHeadY() - Constants.UNIT_SIZE == this.y[i]) return true;
         }
 
+
+        if( (this.getHeadY() - Constants.UNIT_SIZE) < 0) return true;
         return false;
-        //return (this.getHeadY() + Constants.UNIT_SIZE) < Constants.SCREEN_HEIGHT;
     }
 
     private boolean checkDown(List<Obstacle> obstacles, PlayerSnake playerSnake) {
@@ -147,8 +149,9 @@ public class AiSnake extends PlayerSnake {
         for (int i = 1; i < this.getSnakeLength(); i++) {
             if (this.getHeadX() == this.x[i] && this.getHeadY() + Constants.UNIT_SIZE == this.y[i]) return true;
         }
+        if((this.getHeadY() + Constants.UNIT_SIZE) > Constants.SCREEN_HEIGHT) return true;
         return false;
-        //return (this.getHeadY() - Constants.UNIT_SIZE) > 0;
+
     }
 
 
