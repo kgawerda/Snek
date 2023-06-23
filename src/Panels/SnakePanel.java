@@ -27,7 +27,7 @@ public class SnakePanel extends JPanel implements ActionListener {
     private AiSnake aiSnake;
     Timer timer;
     private JButton restartButton;
-    private boolean written=false;
+    private boolean written = false;
 
 
     public void init() {
@@ -51,21 +51,21 @@ public class SnakePanel extends JPanel implements ActionListener {
         this.setBackground(Color.black);
         this.setFocusable(true);
         this.setLayout(null);
-        
+
         initializeRestartButton();
         this.add(restartButton);
     }
 
     private void initializeRestartButton() {
         restartButton = new JButton("Restart");
-        restartButton.setBounds(Constants.SCREEN_WIDTH / 2 - 50, Constants.SCREEN_HEIGHT /2  + 200, 100, 50);
+        restartButton.setBounds(Constants.SCREEN_WIDTH / 2 - 50, Constants.SCREEN_HEIGHT / 2 + 200, 100, 50);
         restartButton.addActionListener(e -> restartGame());
         restartButton.setVisible(false);
     }
 
     private void restartGame() {
         init();
-        written=false;
+        written = false;
         running = true;
         runningAi = true;
         restartButton.setVisible(false);
@@ -88,10 +88,10 @@ public class SnakePanel extends JPanel implements ActionListener {
             mouse.checkCollision(playerSnake, obstacleGenerator.getObstacles());
             threadPool.runTask(mouse.createRunnable(playerSnake.getHeadX(), playerSnake.getHeadY(), obstacleGenerator.getObstacles()));
             running = playerSnake.checkCollisionsBoard();
-            if(running) running = playerSnake.checkCollisionSnake(aiSnake);
-            if(runningAi){
+            if (running) running = playerSnake.checkCollisionSnake(aiSnake);
+            if (runningAi) {
                 runningAi = aiSnake.checkCollisionSnake(playerSnake);
-                runningAi=aiSnake.checkCollisionsBoard();
+                runningAi = aiSnake.checkCollisionsBoard();
             }
             this.checkObstacleCollision();
             this.checkAiObstacleCollision();
@@ -119,7 +119,7 @@ public class SnakePanel extends JPanel implements ActionListener {
         String directoryName = "Scores";
         String fileName = new SimpleDateFormat("ddMMyyyy").format(new Date());
         String formattedDate = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss").format(new Date());
-        String data = "DateOfGame: " + formattedDate + ", Player score: " + score +", AI score: " + aiscore + "\n";
+        String data = "DateOfGame: " + formattedDate + ", Player score: " + score + ", AI score: " + aiscore + "\n";
 
         try {
             File directory = new File(directoryName);
@@ -153,9 +153,9 @@ public class SnakePanel extends JPanel implements ActionListener {
         g.drawString("GAME OVER", (Constants.SCREEN_WIDTH - metrics.stringWidth("GAME OVER")) / 2, Constants.SCREEN_HEIGHT / 2);
         restartButton.setVisible(true);
 
-        if(!written){
-            saveDataToFile(playerSnake.getSnakeLength() - Constants.INITIAL_SNAKE_LENGTH,aiSnake.getSnakeLength() - Constants.INITIAL_SNAKE_LENGTH);
-            written=true;
+        if (!written) {
+            saveDataToFile(playerSnake.getSnakeLength() - Constants.INITIAL_SNAKE_LENGTH, aiSnake.getSnakeLength() - Constants.INITIAL_SNAKE_LENGTH);
+            written = true;
         }
 
     }

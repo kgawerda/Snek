@@ -7,7 +7,6 @@ import javax.swing.*;
 public class GameFrame extends JFrame {
 
     public GameFrame() {
-        // TODO :here we should add 'restart' button 
         SnakePanel panel = new SnakePanel();
         this.add(panel);
         this.setTitle("Snake");

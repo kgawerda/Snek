@@ -6,17 +6,17 @@ import java.awt.*;
 import java.util.List;
 
 public class AiSnake extends PlayerSnake {
-    private char direction='U';
-    private char prevDirection='U';
+    private char direction = 'U';
+    private char prevDirection = 'U';
 
     public Runnable createRunnable(Apple apple, List<Obstacle> obstacles, PlayerSnake playerSnake) {
         return new Runnable() {
             @Override
             public void run() {
                 //if(!checkLeft(obstacles, playerSnake)&&!checkRight(obstacles, playerSnake)&&!checkUp(obstacles, playerSnake)&&!checkDown(obstacles, playerSnake))
-                prevDirection=direction;
+                prevDirection = direction;
                 setDirection(apple, obstacles, playerSnake);
-                prevDirection=direction;
+                prevDirection = direction;
                 direction = avoidObstacles(obstacles, playerSnake);
                 move();
 
@@ -36,7 +36,7 @@ public class AiSnake extends PlayerSnake {
     }
 
 
-    public void move(){
+    public void move() {
         for (int i = snakeLength; i > 0; i--) {
             x[i] = x[(i - 1)];
             y[i] = y[(i - 1)];
@@ -49,20 +49,21 @@ public class AiSnake extends PlayerSnake {
         }
     }
 
-    public void setDirection(Apple apple,List<Obstacle> obstacles, PlayerSnake playerSnake){
-        if (apple.getPositionX() > this.getHeadX()&&!checkRight(obstacles, playerSnake)&&prevDirection!='L') direction = 'R';
-        //else if (apple.getPositionX() > this.getHeadX()&&checkRight(obstacles, playerSnake)) direction = 'U';
+    public void setDirection(Apple apple, List<Obstacle> obstacles, PlayerSnake playerSnake) {
+        if (apple.getPositionX() > this.getHeadX() && !checkRight(obstacles, playerSnake) && prevDirection != 'L') direction = 'R';
+            //else if (apple.getPositionX() > this.getHeadX()&&checkRight(obstacles, playerSnake)) direction = 'U';
 
-        else if (apple.getPositionX() < this.getHeadX()&&!checkLeft(obstacles, playerSnake)&&prevDirection!='R') direction = 'L';
-        //else if (apple.getPositionX() < this.getHeadX()&&checkLeft(obstacles, playerSnake)) direction = 'U';
+        else if (apple.getPositionX() < this.getHeadX() && !checkLeft(obstacles, playerSnake) && prevDirection != 'R') direction = 'L';
+            //else if (apple.getPositionX() < this.getHeadX()&&checkLeft(obstacles, playerSnake)) direction = 'U';
 
-        else if (apple.getPositionY() > this.getHeadY()&&!checkDown(obstacles, playerSnake)&&prevDirection!='U') direction = 'D';
-        //else if (apple.getPositionY() > this.getHeadY()&&!checkDown(obstacles, playerSnake)) direction = 'R';
+        else if (apple.getPositionY() > this.getHeadY() && !checkDown(obstacles, playerSnake) && prevDirection != 'U') direction = 'D';
+            //else if (apple.getPositionY() > this.getHeadY()&&!checkDown(obstacles, playerSnake)) direction = 'R';
 
-        else if (apple.getPositionY() < this.getHeadY()&&!checkUp(obstacles, playerSnake)&&prevDirection!='D') direction = 'U';
-       /// else if (apple.getPositionY() < this.getHeadY()&&!checkUp(obstacles, playerSnake)) direction = 'R';
+        else if (apple.getPositionY() < this.getHeadY() && !checkUp(obstacles, playerSnake) && prevDirection != 'D') direction = 'U';
+        /// else if (apple.getPositionY() < this.getHeadY()&&!checkUp(obstacles, playerSnake)) direction = 'R';
     }
-    private char avoidObstacles(List<Obstacle> obstacles, PlayerSnake playerSnake){
+
+    private char avoidObstacles(List<Obstacle> obstacles, PlayerSnake playerSnake) {
         switch (direction) {
             case 'R' -> {
                 if (!checkRight(obstacles, playerSnake)) return 'R';
@@ -89,67 +90,66 @@ public class AiSnake extends PlayerSnake {
     }
 
 
-    private boolean checkLeft(List<Obstacle> obstacles, PlayerSnake playerSnake){
+    private boolean checkLeft(List<Obstacle> obstacles, PlayerSnake playerSnake) {
         for (Obstacle obstacle : obstacles) {
             Rectangle obstacleRectangle = obstacle.getBounds();
-            if (obstacleRectangle.contains(this.getHeadX()-Constants.UNIT_SIZE,this.getHeadY())) return true;
+            if (obstacleRectangle.contains(this.getHeadX() - Constants.UNIT_SIZE, this.getHeadY())) return true;
         }
-        for(int i=0; i<playerSnake.getSnakeLength();i++){
-            if(this.getHeadX()-Constants.UNIT_SIZE==playerSnake.x[i]&&this.getHeadY()==playerSnake.y[i]) return true;
+        for (int i = 0; i < playerSnake.getSnakeLength(); i++) {
+            if (this.getHeadX() - Constants.UNIT_SIZE == playerSnake.x[i] && this.getHeadY() == playerSnake.y[i]) return true;
         }
-        for(int i=1; i<this.getSnakeLength();i++){
-            if(this.getHeadX()-Constants.UNIT_SIZE==this.x[i]&&this.getHeadY()==this.y[i]) return true;
+        for (int i = 1; i < this.getSnakeLength(); i++) {
+            if (this.getHeadX() - Constants.UNIT_SIZE == this.x[i] && this.getHeadY() == this.y[i]) return true;
         }
         return false;
         //return (this.getHeadX() - Constants.UNIT_SIZE) > 0;
     }
 
-    private boolean checkRight(List<Obstacle> obstacles, PlayerSnake playerSnake){
+    private boolean checkRight(List<Obstacle> obstacles, PlayerSnake playerSnake) {
         for (Obstacle obstacle : obstacles) {
             Rectangle obstacleRectangle = obstacle.getBounds();
-            if (obstacleRectangle.contains(this.getHeadX()+Constants.UNIT_SIZE,this.getHeadY())) return true;
+            if (obstacleRectangle.contains(this.getHeadX() + Constants.UNIT_SIZE, this.getHeadY())) return true;
         }
-        for(int i=0; i<playerSnake.getSnakeLength();i++){
-            if(this.getHeadX()+Constants.UNIT_SIZE==playerSnake.x[i]&&this.getHeadY()==playerSnake.y[i]) return true;
+        for (int i = 0; i < playerSnake.getSnakeLength(); i++) {
+            if (this.getHeadX() + Constants.UNIT_SIZE == playerSnake.x[i] && this.getHeadY() == playerSnake.y[i]) return true;
         }
-        for(int i=1; i<this.getSnakeLength();i++){
-            if(this.getHeadX()+Constants.UNIT_SIZE==this.x[i]&&this.getHeadY()==this.y[i]) return true;
+        for (int i = 1; i < this.getSnakeLength(); i++) {
+            if (this.getHeadX() + Constants.UNIT_SIZE == this.x[i] && this.getHeadY() == this.y[i]) return true;
         }
         //return (this.getHeadX() + Constants.UNIT_SIZE) < Constants.SCREEN_WIDTH;
         return false;
     }
 
-    private boolean checkUp(List<Obstacle> obstacles, PlayerSnake playerSnake){
+    private boolean checkUp(List<Obstacle> obstacles, PlayerSnake playerSnake) {
         for (Obstacle obstacle : obstacles) {
             Rectangle obstacleRectangle = obstacle.getBounds();
-            if (obstacleRectangle.contains(this.getHeadX(),this.getHeadY()-Constants.UNIT_SIZE)) return true;
+            if (obstacleRectangle.contains(this.getHeadX(), this.getHeadY() - Constants.UNIT_SIZE)) return true;
         }
-        for(int i=0; i<playerSnake.getSnakeLength();i++){
-            if(this.getHeadX()==playerSnake.x[i]&&this.getHeadY()-Constants.UNIT_SIZE==playerSnake.y[i]) return true;
+        for (int i = 0; i < playerSnake.getSnakeLength(); i++) {
+            if (this.getHeadX() == playerSnake.x[i] && this.getHeadY() - Constants.UNIT_SIZE == playerSnake.y[i]) return true;
         }
-        for(int i=1; i<this.getSnakeLength();i++){
-            if(this.getHeadX()==this.x[i]&&this.getHeadY()-Constants.UNIT_SIZE==this.y[i]) return true;
+        for (int i = 1; i < this.getSnakeLength(); i++) {
+            if (this.getHeadX() == this.x[i] && this.getHeadY() - Constants.UNIT_SIZE == this.y[i]) return true;
         }
 
         return false;
         //return (this.getHeadY() + Constants.UNIT_SIZE) < Constants.SCREEN_HEIGHT;
     }
 
-    private boolean checkDown(List<Obstacle> obstacles, PlayerSnake playerSnake){
+    private boolean checkDown(List<Obstacle> obstacles, PlayerSnake playerSnake) {
         for (Obstacle obstacle : obstacles) {
             Rectangle obstacleRectangle = obstacle.getBounds();
-            if (obstacleRectangle.contains(this.getHeadX(),this.getHeadY()+Constants.UNIT_SIZE)) return true;
+            if (obstacleRectangle.contains(this.getHeadX(), this.getHeadY() + Constants.UNIT_SIZE)) return true;
         }
-        for(int i=0; i<playerSnake.getSnakeLength();i++){
-            if(this.getHeadX()==playerSnake.x[i]&&this.getHeadY()+Constants.UNIT_SIZE==playerSnake.y[i]) return true;
+        for (int i = 0; i < playerSnake.getSnakeLength(); i++) {
+            if (this.getHeadX() == playerSnake.x[i] && this.getHeadY() + Constants.UNIT_SIZE == playerSnake.y[i]) return true;
         }
-        for(int i=1; i<this.getSnakeLength();i++){
-            if(this.getHeadX()==this.x[i]&&this.getHeadY()+Constants.UNIT_SIZE==this.y[i]) return true;
+        for (int i = 1; i < this.getSnakeLength(); i++) {
+            if (this.getHeadX() == this.x[i] && this.getHeadY() + Constants.UNIT_SIZE == this.y[i]) return true;
         }
         return false;
         //return (this.getHeadY() - Constants.UNIT_SIZE) > 0;
     }
-
 
 
 }
