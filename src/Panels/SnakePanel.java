@@ -5,14 +5,17 @@ import Objects.*;
 import Threads.ThreadPool;
 
 import javax.swing.*;
+import javax.swing.Timer;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.nio.file.Files;
 import java.text.SimpleDateFormat;
-import java.util.Date;
+import java.util.*;
 import java.io.File;
+import java.util.List;
 
 
 public class SnakePanel extends JPanel implements ActionListener {
@@ -26,10 +29,11 @@ public class SnakePanel extends JPanel implements ActionListener {
     private AiSnake aiSnake;
     Timer timer;
     private JButton restartButton;
+    private JButton scoresButton;
+    private JLabel scoresLabel;
     private boolean written = false;
-
     private long startTime;
-
+    
 
     public void init() {
         startTime = System.currentTimeMillis();
@@ -55,14 +59,40 @@ public class SnakePanel extends JPanel implements ActionListener {
         this.setLayout(null);
 
         initializeRestartButton();
+        initializeScoresButton();
+        initializeScoresLabel();
+
         this.add(restartButton);
+        this.add(scoresButton);
+        this.add(scoresLabel);
     }
 
     private void initializeRestartButton() {
         restartButton = new JButton("Restart");
-        restartButton.setBounds(Constants.SCREEN_WIDTH / 2 - 50, Constants.SCREEN_HEIGHT / 2 + 200, 100, 50);
+        restartButton.setBounds(Constants.SCREEN_WIDTH / 2 - 100, Constants.SCREEN_HEIGHT / 2 + 200, 100, 50);
         restartButton.addActionListener(e -> restartGame());
         restartButton.setVisible(false);
+    }
+
+    private void initializeScoresButton() {
+        scoresButton = new JButton("Show Scores");
+        scoresButton.setBounds(Constants.SCREEN_WIDTH / 2 + 10, Constants.SCREEN_HEIGHT / 2 + 200, 120, 50);
+        scoresButton.addActionListener(e -> {
+            showScores();
+            restartButton.setVisible(false);
+            scoresButton.setVisible(false);
+        });
+        scoresButton.setVisible(false);
+    }
+
+    private void initializeScoresLabel() {
+        scoresLabel = new JLabel();
+        scoresLabel.setBounds(Constants.SCREEN_WIDTH / 2 - 200, 100, 400, 400);
+        scoresLabel.setForeground(Color.white);
+        scoresLabel.setFont(new Font("Serif", Font.PLAIN, 18));
+        scoresLabel.setVerticalAlignment(SwingConstants.TOP);
+        scoresLabel.setHorizontalAlignment(SwingConstants.LEFT);
+        scoresLabel.setVisible(false);
     }
 
     private void restartGame() {
@@ -71,6 +101,8 @@ public class SnakePanel extends JPanel implements ActionListener {
         running = true;
         runningAi = true;
         restartButton.setVisible(false);
+        scoresButton.setVisible(false);
+        scoresLabel.setVisible(false);
     }
 
     @Override
@@ -147,6 +179,7 @@ public class SnakePanel extends JPanel implements ActionListener {
     }
 
     public void gameOver(Graphics g) {
+
         g.setColor(Color.red);
         g.setFont(new Font("Serif", Font.BOLD, 40));
         FontMetrics metrics1 = getFontMetrics(g.getFont());
@@ -156,30 +189,71 @@ public class SnakePanel extends JPanel implements ActionListener {
         FontMetrics metrics = getFontMetrics(g.getFont());
         g.drawString("GAME OVER", (Constants.SCREEN_WIDTH - metrics.stringWidth("GAME OVER")) / 2, Constants.SCREEN_HEIGHT / 2);
         restartButton.setVisible(true);
+        scoresButton.setVisible(true);
 
         if (!written) {
             saveDataToFile(playerSnake.getSnakeLength() - Constants.INITIAL_SNAKE_LENGTH, aiSnake.getSnakeLength() - Constants.INITIAL_SNAKE_LENGTH);
             written = true;
-        }
 
+        }
     }
 
 
     public void checkObstacleCollision() {
         Rectangle snake = playerSnake.getBounds();
         for (Obstacle obstacle : obstacleGenerator.getObstacles()) {
-            Rectangle obstacleRectangle = obstacle.getBounds();
-            if (snake.intersects(obstacleRectangle)) running = false;
+            Rectangle obstacleRect = obstacle.getBounds();
+            if (snake.intersects(obstacleRect)) {
+                running = false;
+            }
         }
     }
 
     public void checkAiObstacleCollision() {
         Rectangle snake = aiSnake.getBounds();
-
         for (Obstacle obstacle : obstacleGenerator.getObstacles()) {
-            Rectangle obstacleRectangle = obstacle.getBounds();
-            if (snake.intersects(obstacleRectangle)) runningAi = false;
+            Rectangle obstacleRect = obstacle.getBounds();
+            if (snake.intersects(obstacleRect)) {
+                runningAi = false;
+            }
         }
     }
 
+    private void showScores() {
+        File scoreFile = new File("Scores/gameScores.txt");
+
+        try {
+            List<String> scores = Files.readAllLines(scoreFile.toPath());
+            List<ScoreEntry> scoreEntries = new ArrayList<>();
+
+            for (String score : scores) {
+                String[] scoreData = score.split(", ");
+                String[] dateOfGame = scoreData[0].split(": ");
+                String[] playerScore = scoreData[1].split(": ");
+                int playerScoreValue = Integer.parseInt(playerScore[1].trim());
+                scoreEntries.add(new ScoreEntry(dateOfGame[1], playerScoreValue));
+            }
+
+            scoreEntries.sort(Comparator.comparingInt(ScoreEntry::playerScore).reversed());
+
+            StringBuilder scoresText = new StringBuilder("<html><body>");
+
+            int count = 0;
+            for (int i = 0; i < scoreEntries.size() && count < 10; i++) {
+                ScoreEntry entry = scoreEntries.get(i);
+                scoresText.append(i + 1).append(". DateOfGame: ").append(entry.scoreData()).append(", Player score: ").append(entry.playerScore()).append("<br>");
+                count++;
+            }
+
+            scoresText.append("</body></html>");
+//            System.out.println(scoresText.toString());
+            scoresLabel.setText(scoresText.toString());
+            scoresLabel.setVisible(true);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    record ScoreEntry(String scoreData, int playerScore) {
+    }
 }

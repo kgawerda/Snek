@@ -6,6 +6,7 @@ import javax.swing.*;
 
 public class GameFrame extends JFrame {
 
+    
     public GameFrame() {
         SnakePanel panel = new SnakePanel();
         this.add(panel);
