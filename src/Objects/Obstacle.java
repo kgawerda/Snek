@@ -17,9 +17,10 @@ public class Obstacle extends BoardObject {
     }
 
     public void draw(Graphics g) {
-
-        g.setColor(Color.white);
-        g.fillRect(positionX, positionY, width, height);
+        loadImage("src/resources/obstacle.png");
+        g.drawImage(image, positionX, positionY, width, height, null);
+//        g.setColor(Color.white);
+//        g.fillRect(positionX, positionY, width, height);
     }
     
     private void randomWidth(int max_size) {

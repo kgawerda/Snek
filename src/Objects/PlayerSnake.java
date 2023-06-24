@@ -3,6 +3,7 @@ package Objects;
 
 import Constants.Constants;
 
+import javax.swing.*;
 import java.awt.*;
 import java.beans.PropertyChangeSupport;
 
@@ -19,6 +20,8 @@ public class PlayerSnake implements Runnable {
     }
 
     protected int snakeLength;
+    
+    protected Image image;
 
     public int getSnakeLength() {
         return snakeLength;
@@ -49,7 +52,6 @@ public class PlayerSnake implements Runnable {
     }
 
     public void setSnakeLength(int length) {
-//        int old = this.snakeLength;
         this.snakeLength = length;
         changes.firePropertyChange("snakeLength", length, this.snakeLength);
     }
@@ -88,15 +90,23 @@ public class PlayerSnake implements Runnable {
         }
         return true;
     }
-
+    
+    
+    private void loadImage(String filename)
+    {
+        ImageIcon tempHead = new ImageIcon(filename);
+        image = tempHead.getImage(); 
+    }
+    
     public void draw(Graphics g) {
         for (int i = 0; i < snakeLength; i++) {
             if (i == 0) {
-                g.setColor(Color.green);
-                g.fillRect(x[i], y[i], Constants.UNIT_SIZE, Constants.UNIT_SIZE);
+                loadImage("src/resources/snakeHead.png");
+                g.drawImage(image, x[i], y[i], null);
+//    
             } else {
-                g.setColor(Color.cyan);
-                g.fillRect(x[i], y[i], Constants.UNIT_SIZE, Constants.UNIT_SIZE);
+                loadImage("src/resources/snakeBody.png");
+                g.drawImage(image, x[i], y[i], null);
             }
         }
     }

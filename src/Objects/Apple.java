@@ -9,9 +9,11 @@ import java.util.Random;
 public class Apple extends BoardObject {
     Random random;
 
+
     public void draw(Graphics g) {
-        g.setColor(Color.red);
-        g.fillOval(positionX, positionY, Constants.UNIT_SIZE, Constants.UNIT_SIZE);
+        loadImage("src/resources/apple.png");
+        g.drawImage(image, positionX, positionY, null);
+
     }
 
     protected boolean checkObstacle(List<Obstacle> obstacles) {

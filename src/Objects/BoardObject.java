@@ -2,12 +2,21 @@ package Objects;
 
 import Constants.Constants;
 
+import javax.swing.*;
 import java.awt.*;
 
 public class BoardObject {
 
     protected int positionX;
     protected int positionY;
+
+    protected Image image;
+
+
+    protected void loadImage(String filename) {
+        ImageIcon tempFruitImage = new ImageIcon(filename);
+        image = tempFruitImage.getImage();
+    }
 
     public int getPositionX() {
         return positionX;

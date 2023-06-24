@@ -2,6 +2,7 @@ package Objects;
 
 import Constants.Constants;
 
+import javax.swing.*;
 import java.awt.*;
 import java.util.List;
 
@@ -31,15 +32,20 @@ public class AiSnake extends PlayerSnake {
         }
     }
 
+    private void loadImage(String filename) {
+        ImageIcon tempHead = new ImageIcon(filename);
+        image = tempHead.getImage();
+    }
+
     @Override
     public void draw(Graphics g) {
         for (int i = 0; i < this.snakeLength; i++) {
             if (i == 0) {
-                g.setColor(Color.orange);
-                g.fillRect(x[i], y[i], Constants.UNIT_SIZE, Constants.UNIT_SIZE);
+                loadImage("src/resources/snakeHeadAi.png");
+                g.drawImage(image, x[i], y[i], null);
             } else {
-                g.setColor(Color.red);
-                g.fillRect(x[i], y[i], Constants.UNIT_SIZE, Constants.UNIT_SIZE);
+                loadImage("src/resources/snakeBodyAi.png");
+                g.drawImage(image, x[i], y[i], null);
             }
         }
     }

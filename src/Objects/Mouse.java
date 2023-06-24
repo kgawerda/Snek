@@ -62,7 +62,8 @@ public class Mouse extends Apple {
 
 
     public void draw(Graphics g) {
-        g.setColor(Color.gray);
-        g.fillRect(positionX, positionY, Constants.UNIT_SIZE, Constants.UNIT_SIZE);
+        loadImage("src/resources/mice.png");
+//        g.setColor(Color.gray);
+        g.drawImage(image, positionX, positionY, null);
     }
 }

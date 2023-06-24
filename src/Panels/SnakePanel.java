@@ -33,7 +33,8 @@ public class SnakePanel extends JPanel implements ActionListener {
     private JLabel scoresLabel;
     private boolean written = false;
     private long startTime;
-    
+    private boolean showScore = false;
+
 
     public void init() {
         startTime = System.currentTimeMillis();
@@ -78,6 +79,8 @@ public class SnakePanel extends JPanel implements ActionListener {
         scoresButton = new JButton("Show Scores");
         scoresButton.setBounds(Constants.SCREEN_WIDTH / 2 + 10, Constants.SCREEN_HEIGHT / 2 + 200, 120, 50);
         scoresButton.addActionListener(e -> {
+            showScore = true;
+            repaint();
             showScores();
             restartButton.setVisible(false);
             scoresButton.setVisible(false);
@@ -100,6 +103,7 @@ public class SnakePanel extends JPanel implements ActionListener {
         written = false;
         running = true;
         runningAi = true;
+        showScore = false;
         restartButton.setVisible(false);
         scoresButton.setVisible(false);
         scoresLabel.setVisible(false);
@@ -172,7 +176,6 @@ public class SnakePanel extends JPanel implements ActionListener {
             FileWriter writer = new FileWriter(file, true);
             writer.write(data);
             writer.close();
-            System.out.println("Data saved to file: " + fileName + ".txt");
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -180,17 +183,20 @@ public class SnakePanel extends JPanel implements ActionListener {
 
     public void gameOver(Graphics g) {
 
-        g.setColor(Color.red);
-        g.setFont(new Font("Serif", Font.BOLD, 40));
-        FontMetrics metrics1 = getFontMetrics(g.getFont());
-        g.drawString("Score: " + (playerSnake.getSnakeLength() - Constants.INITIAL_SNAKE_LENGTH), (Constants.SCREEN_WIDTH - metrics1.stringWidth("Score: " + (playerSnake.getSnakeLength() - Constants.INITIAL_SNAKE_LENGTH))) / 2, g.getFont().getSize());
-        g.setColor(Color.red);
-        g.setFont(new Font("Serif", Font.BOLD, 75));
-        FontMetrics metrics = getFontMetrics(g.getFont());
-        g.drawString("GAME OVER", (Constants.SCREEN_WIDTH - metrics.stringWidth("GAME OVER")) / 2, Constants.SCREEN_HEIGHT / 2);
+
+        if (!showScore) {
+            g.setColor(Color.red);
+            g.setFont(new Font("Serif", Font.BOLD, 40));
+            FontMetrics metrics1 = getFontMetrics(g.getFont());
+            g.drawString("Score: " + (playerSnake.getSnakeLength() - Constants.INITIAL_SNAKE_LENGTH), (Constants.SCREEN_WIDTH - metrics1.stringWidth("Score: " + (playerSnake.getSnakeLength() - Constants.INITIAL_SNAKE_LENGTH))) / 2, g.getFont().getSize());
+            g.setColor(Color.red);
+            g.setFont(new Font("Serif", Font.BOLD, 75));
+            FontMetrics metrics = getFontMetrics(g.getFont());
+            g.drawString("GAME OVER", (Constants.SCREEN_WIDTH - metrics.stringWidth("GAME OVER")) / 2, Constants.SCREEN_HEIGHT / 2);
+
+        }
         restartButton.setVisible(true);
         scoresButton.setVisible(true);
-
         if (!written) {
             saveDataToFile(playerSnake.getSnakeLength() - Constants.INITIAL_SNAKE_LENGTH, aiSnake.getSnakeLength() - Constants.INITIAL_SNAKE_LENGTH);
             written = true;
@@ -244,10 +250,10 @@ public class SnakePanel extends JPanel implements ActionListener {
                 scoresText.append(i + 1).append(". DateOfGame: ").append(entry.scoreData()).append(", Player score: ").append(entry.playerScore()).append("<br>");
                 count++;
             }
-
+            repaint();
             scoresText.append("</body></html>");
-//            System.out.println(scoresText.toString());
             scoresLabel.setText(scoresText.toString());
+
             scoresLabel.setVisible(true);
         } catch (IOException e) {
             e.printStackTrace();
