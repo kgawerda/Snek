@@ -8,7 +8,6 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.beans.PropertyChangeListener;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
@@ -28,7 +27,7 @@ public class SnakePanel extends JPanel implements ActionListener {
     Timer timer;
     private JButton restartButton;
     private boolean written = false;
-    
+
     private long startTime;
 
 
@@ -183,8 +182,4 @@ public class SnakePanel extends JPanel implements ActionListener {
         }
     }
 
-    // TODO: check usage of this method
-    public void addSnakeObjectPropertyChangeListener(PropertyChangeListener listener) {
-        playerSnake.addPropertyChangeListener(listener);
-    }
 }

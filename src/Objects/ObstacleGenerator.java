@@ -9,16 +9,11 @@ public class ObstacleGenerator {
     private final List<Obstacle> obstacles;
 
     public Runnable createRunnable() {
-        return new Runnable() {
-            @Override
-            public void run() {
-                generateObstacles();
-            }
-        };
+        return this::generateObstacles;
     }
 
     public ObstacleGenerator() {
-        obstacles = new ArrayList<Obstacle>();
+        obstacles = new ArrayList<>();
     }
 
     private void generateObstacles() {

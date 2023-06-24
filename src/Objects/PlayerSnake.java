@@ -1,12 +1,9 @@
 package Objects;
 
+
 import Constants.Constants;
-import Panels.SnakePanel;
 
 import java.awt.*;
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
-import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 
 public class PlayerSnake implements Runnable {
@@ -52,7 +49,7 @@ public class PlayerSnake implements Runnable {
     }
 
     public void setSnakeLength(int length) {
-        int old = this.snakeLength;
+//        int old = this.snakeLength;
         this.snakeLength = length;
         changes.firePropertyChange("snakeLength", length, this.snakeLength);
     }
@@ -74,7 +71,6 @@ public class PlayerSnake implements Runnable {
     public boolean checkCollisionsBoard() {
         for (int i = this.snakeLength; i > 1; i--) {
             if ((this.getHeadX() == this.x[i]) && (this.getHeadY() == this.y[i])) {
-                //System.out.println("Snake collision");
                 return false;
             }
         }
@@ -85,12 +81,14 @@ public class PlayerSnake implements Runnable {
 
         return true;
     }
-    public boolean checkCollisionSnake(PlayerSnake enemySnake){
-        for(int i=0; i<enemySnake.getSnakeLength();i++){
-            if(this.getHeadX()==enemySnake.x[i]&&this.getHeadY()==enemySnake.y[i]) return false;
+
+    public boolean checkCollisionSnake(PlayerSnake enemySnake) {
+        for (int i = 0; i < enemySnake.getSnakeLength(); i++) {
+            if (this.getHeadX() == enemySnake.x[i] && this.getHeadY() == enemySnake.y[i]) return false;
         }
         return true;
     }
+
     public void draw(Graphics g) {
         for (int i = 0; i < snakeLength; i++) {
             if (i == 0) {
@@ -102,11 +100,5 @@ public class PlayerSnake implements Runnable {
             }
         }
     }
-
-    // TODO: check if this is needed
-    public void addPropertyChangeListener(PropertyChangeListener listener) {
-        changes.addPropertyChangeListener(listener);
-    }
-
     
 }

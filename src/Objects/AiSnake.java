@@ -11,7 +11,6 @@ public class AiSnake extends PlayerSnake {
 
     public Runnable createRunnable(Apple apple, List<Obstacle> obstacles, PlayerSnake playerSnake) {
         return () -> {
-            //if(!checkLeft(obstacles, playerSnake)&&!checkRight(obstacles, playerSnake)&&!checkUp(obstacles, playerSnake)&&!checkDown(obstacles, playerSnake))
             prevDirection = direction;
             setDirection(apple, obstacles, playerSnake);
             prevDirection = direction;
@@ -61,16 +60,12 @@ public class AiSnake extends PlayerSnake {
 
     public void setDirection(Apple apple, List<Obstacle> obstacles, PlayerSnake playerSnake) {
         if (apple.getPositionX() > this.getHeadX() && !checkRight(obstacles, playerSnake) && prevDirection != 'L') direction = 'R';
-            //else if (apple.getPositionX() > this.getHeadX()&&checkRight(obstacles, playerSnake)) direction = 'U';
 
         else if (apple.getPositionX() < this.getHeadX() && !checkLeft(obstacles, playerSnake) && prevDirection != 'R') direction = 'L';
-            //else if (apple.getPositionX() < this.getHeadX()&&checkLeft(obstacles, playerSnake)) direction = 'U';
 
         else if (apple.getPositionY() > this.getHeadY() && !checkDown(obstacles, playerSnake) && prevDirection != 'U') direction = 'D';
-            //else if (apple.getPositionY() > this.getHeadY()&&!checkDown(obstacles, playerSnake)) direction = 'R';
 
         else if (apple.getPositionY() < this.getHeadY() && !checkUp(obstacles, playerSnake) && prevDirection != 'D') direction = 'U';
-        /// else if (apple.getPositionY() < this.getHeadY()&&!checkUp(obstacles, playerSnake)) direction = 'R';
     }
 
     private char avoidObstacles(List<Obstacle> obstacles, PlayerSnake playerSnake) {
@@ -144,7 +139,7 @@ public class AiSnake extends PlayerSnake {
         }
 
 
-        if( (this.getHeadY() - Constants.UNIT_SIZE) < 0) return true;
+        if ((this.getHeadY() - Constants.UNIT_SIZE) < 0) return true;
         return false;
     }
 
@@ -159,7 +154,7 @@ public class AiSnake extends PlayerSnake {
         for (int i = 1; i < this.getSnakeLength(); i++) {
             if (this.getHeadX() == this.x[i] && this.getHeadY() + Constants.UNIT_SIZE == this.y[i]) return true;
         }
-        if((this.getHeadY() + Constants.UNIT_SIZE) > Constants.SCREEN_HEIGHT) return true;
+        if ((this.getHeadY() + Constants.UNIT_SIZE) > Constants.SCREEN_HEIGHT) return true;
         return false;
 
     }
