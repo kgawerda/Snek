@@ -28,9 +28,12 @@ public class SnakePanel extends JPanel implements ActionListener {
     Timer timer;
     private JButton restartButton;
     private boolean written = false;
+    
+    private long startTime;
 
 
     public void init() {
+        startTime = System.currentTimeMillis();
         timer = new Timer(Constants.DELAY, this);
         timer.start();
         apple = new Apple();
@@ -116,10 +119,12 @@ public class SnakePanel extends JPanel implements ActionListener {
     }
 
     public void saveDataToFile(int score, int aiscore) {
+        long currentTime = System.currentTimeMillis();
+        long durationTime = (currentTime - startTime);
         String directoryName = "Scores";
-        String fileName = new SimpleDateFormat("ddMMyyyy").format(new Date());
+        String fileName = "gameScores";
         String formattedDate = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss").format(new Date());
-        String data = "DateOfGame: " + formattedDate + ", Player score: " + score + ", AI score: " + aiscore + "\n";
+        String data = "DateOfGame: " + formattedDate + ", Player score: " + score + ", AI score: " + aiscore + ", Duration: " + durationTime + "milliseconds" + "\n";
 
         try {
             File directory = new File(directoryName);
