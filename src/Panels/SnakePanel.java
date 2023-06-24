@@ -17,7 +17,10 @@ import java.util.*;
 import java.io.File;
 import java.util.List;
 
-
+/**
+ * The SnakePanel class represents the game panel where the snake game is played.
+ * It extends the JPanel class and implements the ActionListener interface for handling timer events.
+ */
 public class SnakePanel extends JPanel implements ActionListener {
     private boolean running = true;
     private boolean runningAi = true;
@@ -27,7 +30,7 @@ public class SnakePanel extends JPanel implements ActionListener {
     private PlayerSnake playerSnake;
     private ObstacleGenerator obstacleGenerator;
     private AiSnake aiSnake;
-    Timer timer;
+    private Timer timer;
     private JButton restartButton;
     private JButton scoresButton;
     private JLabel scoresLabel;
@@ -35,7 +38,9 @@ public class SnakePanel extends JPanel implements ActionListener {
     private long startTime;
     private boolean showScore = false;
 
-
+    /**
+     * Initializes the game by creating game objects, starting the timer, and setting up the panel.
+     */
     public void init() {
         startTime = System.currentTimeMillis();
         timer = new Timer(Constants.DELAY, this);
@@ -52,6 +57,10 @@ public class SnakePanel extends JPanel implements ActionListener {
         this.addKeyListener(playerSnake.getKeyAdapter());
     }
 
+    /**
+     * Constructs a new SnakePanel object.
+     * Initializes the game and sets up the panel.
+     */
     public SnakePanel() {
         init();
         this.setPreferredSize(new Dimension(Constants.SCREEN_WIDTH, Constants.SCREEN_HEIGHT));
@@ -68,6 +77,9 @@ public class SnakePanel extends JPanel implements ActionListener {
         this.add(scoresLabel);
     }
 
+    /**
+     * Initializes the restart button with its properties and action listener.
+     */
     private void initializeRestartButton() {
         restartButton = new JButton("Restart");
         restartButton.setBounds(Constants.SCREEN_WIDTH / 2 - 100, Constants.SCREEN_HEIGHT / 2 + 200, 100, 50);
@@ -75,6 +87,9 @@ public class SnakePanel extends JPanel implements ActionListener {
         restartButton.setVisible(false);
     }
 
+    /**
+     * Initializes the scores button with its properties and action listener.
+     */
     private void initializeScoresButton() {
         scoresButton = new JButton("Show Scores");
         scoresButton.setBounds(Constants.SCREEN_WIDTH / 2 + 10, Constants.SCREEN_HEIGHT / 2 + 200, 120, 50);
@@ -88,6 +103,9 @@ public class SnakePanel extends JPanel implements ActionListener {
         scoresButton.setVisible(false);
     }
 
+    /**
+     * Initializes the scores label with its properties.
+     */
     private void initializeScoresLabel() {
         scoresLabel = new JLabel();
         scoresLabel.setBounds(Constants.SCREEN_WIDTH / 2 - 200, 100, 400, 400);
@@ -98,6 +116,9 @@ public class SnakePanel extends JPanel implements ActionListener {
         scoresLabel.setVisible(false);
     }
 
+    /**
+     * Restarts the game by reinitializing the game objects and resetting the game state.
+     */
     private void restartGame() {
         init();
         written = false;
@@ -137,31 +158,53 @@ public class SnakePanel extends JPanel implements ActionListener {
         repaint();
     }
 
+    /**
+     * The draw method is responsible for rendering the game components on the panel.
+     * It draws the apple, mouse, obstacles, player snake, AI snake, and the score on the screen.
+     * If the game is not running, it calls the gameOver method to display the game over screen.
+     *
+     * @param g the Graphics object used for drawing
+     */
     public void draw(Graphics g) {
+        // Drawing game components if the game is running
         if (running) {
             apple.draw(g);
             mouse.draw(g);
             obstacleGenerator.drawObstacles(g);
             playerSnake.draw(g);
             if (runningAi) aiSnake.draw(g);
+
+            // Drawing the score on the screen
             g.setColor(Color.red);
             g.setFont(new Font("Serif", Font.BOLD, 40));
             FontMetrics metrics = getFontMetrics(g.getFont());
             g.drawString("Score: " + (playerSnake.getSnakeLength() - Constants.INITIAL_SNAKE_LENGTH),
                     (Constants.SCREEN_WIDTH - metrics.stringWidth("Score: " + (playerSnake.getSnakeLength() - Constants.INITIAL_SNAKE_LENGTH))) / 2, g.getFont().getSize());
-        } else gameOver(g);
-
+        } else {
+            // Calling the gameOver method to display the game over screen
+            gameOver(g);
+        }
     }
 
+    /**
+     * Saves the game data to a file.
+     *
+     * @param score   the player's score
+     * @param aiscore the AI's score
+     */
     public void saveDataToFile(int score, int aiscore) {
+        // Getting the current time and duration of the game
         long currentTime = System.currentTimeMillis();
         long durationTime = (currentTime - startTime);
+
+        // Creating the data string to be written to the file
         String directoryName = "Scores";
         String fileName = "gameScores";
         String formattedDate = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss").format(new Date());
         String data = "DateOfGame: " + formattedDate + ", Player score: " + score + ", AI score: " + aiscore + ", Duration: " + durationTime + "milliseconds" + "\n";
 
         try {
+            // Creating the Scores directory if it doesn't exist
             File directory = new File(directoryName);
             if (!directory.exists()) {
                 boolean directoryCreated = directory.mkdir();
@@ -172,6 +215,7 @@ public class SnakePanel extends JPanel implements ActionListener {
                 }
             }
 
+            // Writing the data to the file
             File file = new File(directory, fileName + ".txt");
             FileWriter writer = new FileWriter(file, true);
             writer.write(data);
@@ -181,30 +225,41 @@ public class SnakePanel extends JPanel implements ActionListener {
         }
     }
 
+    /**
+     * Displays the game over screen.
+     *
+     * @param g the Graphics object used for drawing
+     */
     public void gameOver(Graphics g) {
-
-
         if (!showScore) {
+            // Drawing the score on the game over screen
             g.setColor(Color.red);
             g.setFont(new Font("Serif", Font.BOLD, 40));
             FontMetrics metrics1 = getFontMetrics(g.getFont());
             g.drawString("Score: " + (playerSnake.getSnakeLength() - Constants.INITIAL_SNAKE_LENGTH), (Constants.SCREEN_WIDTH - metrics1.stringWidth("Score: " + (playerSnake.getSnakeLength() - Constants.INITIAL_SNAKE_LENGTH))) / 2, g.getFont().getSize());
+
+            // Displaying the "GAME OVER" message on the screen
             g.setColor(Color.red);
             g.setFont(new Font("Serif", Font.BOLD, 75));
             FontMetrics metrics = getFontMetrics(g.getFont());
             g.drawString("GAME OVER", (Constants.SCREEN_WIDTH - metrics.stringWidth("GAME OVER")) / 2, Constants.SCREEN_HEIGHT / 2);
-
         }
+
+        // Making the restart button and scores button visible
         restartButton.setVisible(true);
         scoresButton.setVisible(true);
+
         if (!written) {
+            // Saving the game data to a file
             saveDataToFile(playerSnake.getSnakeLength() - Constants.INITIAL_SNAKE_LENGTH, aiSnake.getSnakeLength() - Constants.INITIAL_SNAKE_LENGTH);
             written = true;
-
         }
     }
 
-
+    /**
+     * Checks for collision between the player snake and obstacles.
+     * If a collision is detected, sets the "running" flag to false to end the game.
+     */
     public void checkObstacleCollision() {
         Rectangle snake = playerSnake.getBounds();
         for (Obstacle obstacle : obstacleGenerator.getObstacles()) {
@@ -215,6 +270,10 @@ public class SnakePanel extends JPanel implements ActionListener {
         }
     }
 
+    /**
+     * Checks for collision between the AI snake and obstacles.
+     * If a collision is detected, sets the "runningAi" flag to false to end the game for AI.
+     */
     public void checkAiObstacleCollision() {
         Rectangle snake = aiSnake.getBounds();
         for (Obstacle obstacle : obstacleGenerator.getObstacles()) {
@@ -225,6 +284,9 @@ public class SnakePanel extends JPanel implements ActionListener {
         }
     }
 
+    /**
+     * Shows the top 10 scores from the gameScores.txt file in the Scores directory.
+     */
     private void showScores() {
         File scoreFile = new File("Scores/gameScores.txt");
 
@@ -260,6 +322,9 @@ public class SnakePanel extends JPanel implements ActionListener {
         }
     }
 
+    /**
+     * Represents a score entry with the date of the game and the player's score.
+     */
     record ScoreEntry(String scoreData, int playerScore) {
     }
 }

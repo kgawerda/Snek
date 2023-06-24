@@ -10,6 +10,16 @@ public class AiSnake extends PlayerSnake {
     private char direction = 'U';
     private char prevDirection = 'U';
 
+    /**
+     * Creates a Runnable object that represents the AI snake's behavior.
+     * Determines the snake's direction based on the apple's position, obstacles, and the player snake.
+     * Moves the snake accordingly and avoids obstacles.
+     *
+     * @param apple         The apple object representing the target for the snake.
+     * @param obstacles     The list of obstacles on the game board.
+     * @param playerSnake   The player's snake object.
+     * @return A Runnable object representing the AI snake's behavior.
+     */
     public Runnable createRunnable(Apple apple, List<Obstacle> obstacles, PlayerSnake playerSnake) {
         return () -> {
             prevDirection = direction;
@@ -17,8 +27,6 @@ public class AiSnake extends PlayerSnake {
             prevDirection = direction;
             direction = avoidObstacles(obstacles, playerSnake);
             move();
-
-
         };
     }
 
@@ -50,7 +58,10 @@ public class AiSnake extends PlayerSnake {
         }
     }
 
-
+    /**
+     * Moves the AI snake based on its current direction.
+     * Updates the snake's position and body segments accordingly.
+     */
     public void move() {
         for (int i = snakeLength; i > 0; i--) {
             x[i] = x[(i - 1)];
@@ -64,16 +75,29 @@ public class AiSnake extends PlayerSnake {
         }
     }
 
+    /**
+     * Sets the direction of the AI snake based on the position of the apple, obstacles, and the player snake.
+     * Determines the optimal direction to move towards the apple while avoiding obstacles and the player snake.
+     *
+     * @param apple         The apple object representing the target for the snake.
+     * @param obstacles     The list of obstacles on the game board.
+     * @param playerSnake   The player's snake object.
+     */
     public void setDirection(Apple apple, List<Obstacle> obstacles, PlayerSnake playerSnake) {
         if (apple.getPositionX() > this.getHeadX() && !checkRight(obstacles, playerSnake) && prevDirection != 'L') direction = 'R';
-
         else if (apple.getPositionX() < this.getHeadX() && !checkLeft(obstacles, playerSnake) && prevDirection != 'R') direction = 'L';
-
         else if (apple.getPositionY() > this.getHeadY() && !checkDown(obstacles, playerSnake) && prevDirection != 'U') direction = 'D';
-
         else if (apple.getPositionY() < this.getHeadY() && !checkUp(obstacles, playerSnake) && prevDirection != 'D') direction = 'U';
     }
 
+    /**
+     * Determines the direction to avoid obstacles based on the current direction of the AI snake.
+     * If the AI snake encounters an obstacle, it selects an alternative direction to avoid the obstacle.
+     *
+     * @param obstacles     The list of obstacles on the game board.
+     * @param playerSnake   The player's snake object.
+     * @return The direction to avoid obstacles.
+     */
     private char avoidObstacles(List<Obstacle> obstacles, PlayerSnake playerSnake) {
         switch (direction) {
             case 'R' -> {
@@ -100,7 +124,13 @@ public class AiSnake extends PlayerSnake {
         return 'E';
     }
 
-
+    /**
+     * Checks if moving left will cause a collision with obstacles or the player snake.
+     *
+     * @param obstacles     The list of obstacles on the game board.
+     * @param playerSnake   The player's snake object.
+     * @return True if moving left will result in a collision, false otherwise.
+     */
     private boolean checkLeft(List<Obstacle> obstacles, PlayerSnake playerSnake) {
         for (Obstacle obstacle : obstacles) {
             Rectangle obstacleRectangle = obstacle.getBounds();
@@ -114,9 +144,15 @@ public class AiSnake extends PlayerSnake {
         }
         if ((this.getHeadX() - Constants.UNIT_SIZE) < 0) return true;
         return false;
-
     }
 
+    /**
+     * Checks if moving right will cause a collision with obstacles or the player snake.
+     *
+     * @param obstacles     The list of obstacles on the game board.
+     * @param playerSnake   The player's snake object.
+     * @return True if moving right will result in a collision, false otherwise.
+     */
     private boolean checkRight(List<Obstacle> obstacles, PlayerSnake playerSnake) {
         for (Obstacle obstacle : obstacles) {
             Rectangle obstacleRectangle = obstacle.getBounds();
@@ -132,6 +168,13 @@ public class AiSnake extends PlayerSnake {
         return false;
     }
 
+    /**
+     * Checks if moving up will cause a collision with obstacles or the player snake.
+     *
+     * @param obstacles     The list of obstacles on the game board.
+     * @param playerSnake   The player's snake object.
+     * @return True if moving up will result in a collision, false otherwise.
+     */
     private boolean checkUp(List<Obstacle> obstacles, PlayerSnake playerSnake) {
         for (Obstacle obstacle : obstacles) {
             Rectangle obstacleRectangle = obstacle.getBounds();
@@ -143,12 +186,17 @@ public class AiSnake extends PlayerSnake {
         for (int i = 1; i < this.getSnakeLength(); i++) {
             if (this.getHeadX() == this.x[i] && this.getHeadY() - Constants.UNIT_SIZE == this.y[i]) return true;
         }
-
-
         if ((this.getHeadY() - Constants.UNIT_SIZE) < 0) return true;
         return false;
     }
 
+    /**
+     * Checks if moving down will cause a collision with obstacles or the player snake.
+     *
+     * @param obstacles     The list of obstacles on the game board.
+     * @param playerSnake   The player's snake object.
+     * @return True if moving down will result in a collision, false otherwise.
+     */
     private boolean checkDown(List<Obstacle> obstacles, PlayerSnake playerSnake) {
         for (Obstacle obstacle : obstacles) {
             Rectangle obstacleRectangle = obstacle.getBounds();
@@ -162,8 +210,5 @@ public class AiSnake extends PlayerSnake {
         }
         if ((this.getHeadY() + Constants.UNIT_SIZE) > Constants.SCREEN_HEIGHT) return true;
         return false;
-
     }
-
-
 }
