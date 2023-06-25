@@ -309,7 +309,7 @@ public class SnakePanel extends JPanel implements ActionListener {
             int count = 0;
             for (int i = 0; i < scoreEntries.size() && count < 10; i++) {
                 ScoreEntry entry = scoreEntries.get(i);
-                scoresText.append(i + 1).append(". DateOfGame: ").append(entry.scoreData()).append(", Player score: ").append(entry.playerScore()).append("<br>");
+                scoresText.append(i + 1).append(".Date: ").append(entry.scoreData()).append(", Player score: ").append(entry.playerScore()).append("<br>");
                 count++;
             }
             repaint();
